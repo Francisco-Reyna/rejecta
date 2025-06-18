@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cotización Interactiva - Francisco David Reyna Galarza</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #ffffff; 
+            min-height: 100vh;
+            color: #333333; 
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: #ffffff; 
+            border-radius: 24px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05); 
+            border: 1px solid #e0e0e0; 
+        }
+
+        .header h1 {
+            color: #1a1a1a; 
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            text-align: center;
+            color: #555555; 
+            font-size: 1.1rem;
+            font-weight: 400;
+            display: flex; 
+            flex-wrap: wrap; 
+            justify-content: center; 
+            align-items: center; 
+            gap: 5px; 
+        }
+        .header p input[type="text"] {
+            font-family: inherit;
+            font-size: 1.1rem;
+            font-weight: 400;
+            color: #555555;
+            border: none;
+            border-bottom: 1px dashed #cccccc; 
+            padding: 2px 5px;
+            text-align: center;
+            background-color: transparent;
+            outline: none;
+            min-width: 150px; 
+        }
+         .header p input[type="text"]:focus {
+            border-bottom: 1px solid #555555;
+         }
+
+
+        .quote-card {
+            background: #ffffff; 
+            border-radius: 24px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05); 
+            border: 1px solid #e0e0e0; 
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .info-item {
+            padding: 20px;
+            background: #f9f9f9; 
+            border-radius: 16px;
+            border: 1px solid #eeeeee; 
+        }
+
+        .info-label {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #777777; 
+            margin-bottom: 5px;
+        }
+
+        .info-value {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #333333; 
+        }
+        .info-item input.info-value { 
+            width: 100%;
+            border: none;
+            background-color: transparent;
+            font-family: inherit;
+            padding: 0;
+            margin:0;
+        }
+        .info-item input.info-value:focus {
+            outline: 1px dashed #ccc;
+            background-color: #fff;
+        }
+
+
+        .services-section h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 25px;
+            color: #1a1a1a; 
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .service-item {
+            background: #f7f7f7; 
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 1px solid #eeeeee;
+            transition: all 0.3s ease;
+        }
+
+        .service-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.07); 
+        }
+
+        .service-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap; 
+            gap: 10px; 
+        }
+        
+        .service-title-wrapper {
+            flex-grow: 1; 
+            min-width: 200px; 
+        }
+
+        .service-price-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .service-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #222222; 
+        }
+
+        .service-price {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #1a1a1a; 
+            background: rgba(0, 0, 0, 0.05); 
+            padding: 8px 16px;
+            border-radius: 12px;
+        }
+
+        .service-description {
+            color: #555555; 
+            line-height: 1.6;
+            margin-bottom: 15px;
+            max-width: 100%; 
+            resize: vertical; 
+            min-height: 80px; 
+        }
+
+        .editable-field {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #cccccc; 
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: white;
+            color: #333333; 
+        }
+
+        .editable-field:focus {
+            outline: none;
+            border-color: #555555; 
+            box-shadow: 0 0 0 3px rgba(85, 85, 85, 0.1); 
+        }
+
+        .price-input {
+            text-align: right;
+            font-weight: 600;
+        }
+
+        .add-service-btn {
+            background: #333333; 
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 16px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .add-service-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2); 
+            background: #444444; 
+        }
+
+        .remove-btn {
+            background: #555555; 
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.875rem;
+            transition: all 0.3s ease;
+        }
+
+        .remove-btn:hover {
+            background: #666666; 
+            transform: scale(1.05);
+        }
+
+        .total-section {
+            background: #2d2d2d; 
+            color: white;
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            margin: 30px 0;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15); 
+        }
+        .total-section h3 { color: white; }
+
+        .total-amount {
+            font-size: 3rem;
+            font-weight: 700;
+            margin: 10px 0;
+        }
+
+        .maintenance-section {
+            background: #2d2d2d; 
+            color: white;
+            padding: 30px;
+            border-radius: 20px;
+            margin: 30px 0;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15); 
+        }
+
+        .maintenance-section h3 {
+            color: white;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+        .maintenance-section ul li i { margin-right: 8px; }
+
+        .terms-section {
+            background: #ffffff; 
+            border-radius: 20px;
+            padding: 30px;
+            margin-top: 30px;
+            border: 1px solid #e0e0e0; 
+        }
+
+        .terms-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #1a1a1a; 
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .term-item {
+            background: #f9f9f9; 
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            border-left: 4px solid #333333; 
+        }
+
+        .term-item .term-title { 
+            font-size: 1.1rem; 
+            font-weight: 600;
+            color: #222222; 
+            margin-bottom: 8px;
+        }
+
+
+        .term-content {
+            color: #555555; 
+            line-height: 1.6;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 16px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none; 
+        }
+
+        .btn-primary {
+            background: #333333; 
+            color: white;
+        }
+         .btn-primary:hover {
+            background: #444444; 
+            transform: translateY(-2px);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+        }
+
+
+        .btn-success { 
+            background: #555555; 
+            color: white;
+        }
+        .btn-success:hover {
+            background: #666666; 
+            transform: translateY(-2px);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-email {
+            background: #007bff; 
+            color: white;
+        }
+        .btn-email:hover {
+            background: #0056b3;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-whatsapp {
+            background: #25D366; 
+            color: white;
+        }
+         .btn-whatsapp:hover {
+            background: #1DAE54;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+        }
+
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+            .header p {
+                font-size: 1rem; 
+            }
+            .header p input[type="text"] {
+                font-size: 1rem; 
+                flex-grow: 1; 
+                min-width: 120px; 
+            }
+
+
+            .quote-card {
+                padding: 25px;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .service-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+             .service-price-actions { 
+                width: 100%;
+                justify-content: space-between;
+            }
+            .service-price-actions .price-input {
+                 width: auto !important; 
+                 flex-grow: 1; 
+            }
+
+
+            .total-amount {
+                font-size: 2rem;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+            .btn {
+                width: 100%; 
+                justify-content: center;
+            }
+        }
+
+        @media print {
+            body { background: white !important; color: #000 !important; }
+            .add-service-btn, .remove-btn, .action-buttons { display: none !important; }
+            .quote-card, .header, .terms-section, .service-item, .info-item, .term-item { 
+                background: white !important; 
+                box-shadow: none !important;
+                border: 1px solid #cccccc !important;
+                color: #000 !important;
+            }
+            .total-section, .maintenance-section {
+                background: #f0f0f0 !important;
+                color: #000 !important;
+                border: 1px solid #cccccc !important;
+            }
+            .total-section h3, .maintenance-section h3, .total-section p, .maintenance-section p,
+            .info-label, .info-value, .service-title, .service-price, .service-description,
+            .terms-title, .term-title, .term-content, .header p, .header h1,
+            .header p input[type="text"] 
+             {
+                color: #000 !important;
+                border-bottom: none !important; 
+            }
+            .editable-field {
+                border-color: #cccccc !important;
+                background: #fdfdfd !important;
+                color: #000 !important;
+            }
+            input.editable-field.info-value#client-name-grid { 
+                 border: none !important; 
+                 padding: 0 !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-code"></i> Francisco David Reyna Galarza</h1>
+            <p>
+                Cotización Interactiva de Desarrollo Web - 
+                <input type="text" id="header-client-name" value="Cliente" placeholder="Nombre del Cliente">
+            </p>
+        </div>
+
+        <div class="quote-card">
+            <div class="info-grid">
+                <div class="info-item">
+                    <div class="info-label">Cliente</div>
+                    <input type="text" class="editable-field info-value" id="client-name-grid" value="Cliente" placeholder="Nombre del Cliente">
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Fecha</div>
+                    <div class="info-value" id="current-date">Cargando fecha...</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Desarrollador</div>
+                    <div class="info-value">Francisco David Reyna Galarza</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Contacto</div>
+                    <div class="info-value">lanboreyna@gmail.com<br><a href="https://wa.me/593988152500" target="_blank" style="color: inherit; text-decoration: none;">+593 988 152 500</a></div>
+                </div>
+            </div>
+
+            <div class="services-section">
+                <h3><i class="fas fa-laptop-code"></i> Servicios de Desarrollo</h3>
+                <div id="services-container">
+                    <div class="service-item">
+                        <div class="service-header">
+                            <div class="service-title-wrapper">
+                                <input type="text" class="editable-field service-title" value="Sitio Web en Framer" placeholder="Nombre del servicio">
+                            </div>
+                            <div class="service-price-actions">
+                                <input type="number" class="editable-field price-input" value="400" min="0" placeholder="0" style="width: 120px;">
+                            </div>
+                        </div>
+                        <textarea class="editable-field service-description" rows="4" placeholder="Descripción del servicio...">• Inicio, Sobre Nosotros, Cartelera, Galería, Proyectos, Noticias, Contacto
+• Diseño responsive (móvil, tablet, desktop)
+• CMS integrado para actualización autónoma
+• Integración redes sociales</textarea>
+                    </div>
+
+                    <div class="service-item">
+                         <div class="service-header">
+                            <div class="service-title-wrapper">
+                                <input type="text" class="editable-field service-title" value="Tienda Digital Shopify" placeholder="Nombre del servicio">
+                            </div>
+                            <div class="service-price-actions">
+                                <input type="number" class="editable-field price-input" value="350" min="0" placeholder="0" style="width: 120px;">
+                            </div>
+                        </div>
+                        <textarea class="editable-field service-description" rows="4" placeholder="Descripción del servicio...">• Configuración completa de tienda Shopify
+• Integración con sitio web Framer
+• Diseño personalizado y responsive
+• Configuración de hasta 20 productos iniciales</textarea>
+                    </div>
+
+                    <div class="service-item">
+                        <div class="service-header">
+                            <div class="service-title-wrapper">
+                                <input type="text" class="editable-field service-title" value="Membresías y Licencias" placeholder="Nombre del servicio">
+                            </div>
+                            <div class="service-price-actions">
+                                <input type="number" class="editable-field price-input" value="60" min="0" placeholder="0" style="width: 120px;">
+                            </div>
+                        </div>
+                        <textarea class="editable-field service-description" rows="3" placeholder="Descripción del servicio...">• Plan Framer Pro (1 año)
+• Plan Shopify Basic (1 año)
+• Hosting y dominio incluidos</textarea>
+                    </div>
+                </div>
+
+                <button class="add-service-btn" onclick="addService()">
+                    <i class="fas fa-plus"></i> Agregar Más Servicios
+                </button>
+                <p style="text-align: center; color: #666666; font-size: 0.9rem; margin-top: 10px; font-style: italic;">
+                    💡 <strong>¿Necesitas algo más?</strong> Agrega cualquier servicio adicional que desees: SEO, redes sociales, copywriting, fotografía, marketing digital, etc.
+                </p>
+            </div>
+
+            <div class="total-section">
+                <h3><i class="fas fa-calculator"></i> Total del Proyecto</h3>
+                <div class="total-amount" id="total-amount">$900</div>
+                <p>Pago: 50% inicio • 50% final</p>
+            </div>
+
+            <div class="maintenance-section">
+                <h3><i class="fas fa-tools"></i> Servicio de Mantenimiento Mensual</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; align-items: center;">
+                    <div>
+                        <h4 style="margin-bottom: 15px;">📦 Incluye:</h4>
+                        <ul style="list-style: none; padding: 0;">
+                            <li style="margin-bottom: 8px;"><i class="fas fa-check"></i> Actualización semanal de contenido</li>
+                            <li style="margin-bottom: 8px;"><i class="fas fa-check"></i> Gestión de hasta 20 productos</li>
+                            <li style="margin-bottom: 8px;"><i class="fas fa-check"></i> Soporte técnico básico</li>
+                        </ul>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 2.5rem; font-weight: 700; margin-bottom: 10px;">$60</div>
+                        <p style="margin: 0;">USD/mes • Pago anticipado</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="terms-section">
+            <div class="terms-title">
+                <i class="fas fa-shield-alt"></i> Términos y Condiciones Legales
+            </div>
+            
+            <div class="term-item">
+                <div class="term-title">💰 Condiciones de Pago</div>
+                <div class="term-content">50% al iniciar el proyecto, 50% al finalizar. Pagos vía transferencia bancaria, PayPal o Banco Pichincha. Retrasos en pagos generan intereses del 2% mensual.</div>
+            </div>
+
+            <div class="term-item">
+                <div class="term-title">⏱️ Tiempo de Entrega</div>
+                <div class="term-content">25-30 días hábiles desde recepción del primer pago y materiales necesarios. Demoras por parte del cliente no extienden garantías.</div>
+            </div>
+            <div class="term-item">
+                <div class="term-title">🛡️ Garantía y Soporte</div>
+                <div class="term-content">30 días post-entrega para corrección de bugs técnicos únicamente. Cambios de diseño, nuevas funcionalidades o modificaciones al alcance original serán cotizados por separado.</div>
+            </div>
+
+            <div class="term-item">
+                <div class="term-title">📸 Contenido Visual y Licencias</div>
+                <div class="term-content">El cliente es responsable de proporcionar contenido visual legal (imágenes, videos, textos). Francisco David Reyna Galarza no se hace responsable por infracciones de copyright de material proporcionado por el cliente. Fuentes tipográficas utilizadas serán de Google Fonts (gratuitas) o el cliente debe proporcionar licencias válidas.</div>
+            </div>
+
+            <div class="term-item">
+                <div class="term-title">⚖️ Propiedad Intelectual</div>
+                <div class="term-content">El código fuente y diseño son propiedad del cliente tras pago completo. Francisco David Reyna Galarza conserva derechos de portafolio y referencias. El cliente no puede revender, redistribuir o reclamar autoría del trabajo técnico.</div>
+            </div>
+
+            <div class="term-item">
+                <div class="term-title">🎯 Alcance del Proyecto</div>
+                <div class="term-content">Cualquier solicitud fuera del alcance inicial será cotizada por separado. Modificaciones mayores después de iniciado el proyecto generan costos adicionales del 25% por hora de desarrollo.</div>
+            </div>
+
+            <div class="term-item">
+                <div class="term-title">🔒 Responsabilidad Legal</div>
+                <div class="term-content">El cliente asume total responsabilidad legal sobre el contenido publicado, cumplimiento de normativas locales, políticas de privacidad y términos de uso. Francisco David Reyna Galarza no se responsabiliza por usos indebidos del sitio web post-entrega.</div>
+            </div>
+
+            <div class="term-item">
+                <div class="term-title">🌐 Servicios de Terceros</div>
+                <div class="term-content">Costos de renovación de dominios, hosting, Shopify, Framer Pro y otros servicios externos corren por cuenta del cliente. Se proporcionará documentación para gestión autónoma.</div>
+            </div>
+
+            <div class="term-item">
+                <div class="term-title">📋 Cancelación y Reembolsos</div>
+                <div class="term-content">Pagos no son reembolsables una vez iniciado el trabajo. Cancelación por parte del cliente requiere pago del 100% del trabajo completado hasta la fecha.</div>
+            </div>
+
+            <div class="term-item">
+                <div class="term-title">⚡ Fuerza Mayor</div>
+                <div class="term-content">Francisco David Reyna Galarza no se responsabiliza por demoras causadas por eventos fuera de su control (desastres naturales, pandemias, fallas de servicios externos, etc.).</div>
+            </div>
+        </div>
+
+        <div class="action-buttons">
+            <button class="btn btn-primary" onclick="window.print()">
+                <i class="fas fa-download"></i> Descargar PDF
+            </button>
+            <button class="btn btn-success" onclick="copyQuote()">
+                <i class="fas fa-copy"></i> Copiar Cotización
+            </button>
+            <button class="btn btn-email" onclick="sendEmailQuote()">
+                <i class="fas fa-envelope"></i> Enviar por Email
+            </button>
+            <button class="btn btn-whatsapp" onclick="sendWhatsAppQuote()">
+                <i class="fab fa-whatsapp"></i> Enviar por WhatsApp
+            </button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async function() { // Hacemos la función del listener asíncrona
+            
+            // Función para obtener y establecer la fecha de Ecuador
+            async function setEcuadorianDate() {
+                const dateElement = document.getElementById('current-date');
+                try {
+                    const response = await fetch('https://worldtimeapi.org/api/timezone/America/Guayaquil');
+                    if (!response.ok) { // Verifica si la respuesta de la API fue exitosa
+                        throw new Error(`Error de API: ${response.status}`);
+                    }
+                    const data = await response.json();
+                    const ecuadorDateTime = new Date(data.datetime);
+                    dateElement.textContent = ecuadorDateTime.toLocaleDateString('es-ES', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                    });
+                } catch (error) {
+                    console.error("Error al obtener la fecha de Ecuador:", error);
+                    // Fallback a la fecha local del usuario si la API falla
+                    dateElement.textContent = new Date().toLocaleDateString('es-ES', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                    });
+                }
+            }
+
+            await setEcuadorianDate(); // Esperamos a que la fecha se establezca
+
+            const headerClientNameInput = document.getElementById('header-client-name');
+            const gridClientNameInput = document.getElementById('client-name-grid');
+
+            headerClientNameInput.addEventListener('input', function() {
+                gridClientNameInput.value = this.value;
+            });
+            gridClientNameInput.addEventListener('input', function() {
+                headerClientNameInput.value = this.value;
+            });
+
+            function calculateTotalAndUpdateListeners() {
+                const priceInputs = document.querySelectorAll('.price-input');
+                let total = 0;
+                priceInputs.forEach(input => {
+                    let priceValue = parseFloat(input.value);
+                    
+                    if (isNaN(priceValue) || priceValue < 0) {
+                        input.value = "0"; 
+                        priceValue = 0;    
+                    }
+                    total += priceValue;
+                    
+                    input.removeEventListener('input', calculateTotalAndUpdateListeners);
+                    input.addEventListener('input', calculateTotalAndUpdateListeners);
+                });
+                document.getElementById('total-amount').textContent = `$${total.toFixed(0)}`;
+            }
+
+            calculateTotalAndUpdateListeners();
+
+            window.addService = function() {
+                const container = document.getElementById('services-container');
+                const serviceDiv = document.createElement('div');
+                serviceDiv.className = 'service-item';
+                serviceDiv.innerHTML = `
+                    <div class="service-header">
+                        <div class="service-title-wrapper">
+                           <input type="text" class="editable-field service-title" value="Nuevo Servicio" placeholder="Nombre del servicio">
+                        </div>
+                        <div class="service-price-actions">
+                            <input type="number" class="editable-field price-input" value="0" min="0" placeholder="0" style="width: 120px;">
+                            <button class="remove-btn" onclick="removeService(this)">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <textarea class="editable-field service-description" rows="3" placeholder="Descripción del servicio...">• Describe aquí las características del servicio
+• Agrega todos los detalles importantes
+• Menciona entregables específicos</textarea>
+                `;
+                container.appendChild(serviceDiv);
+                calculateTotalAndUpdateListeners(); 
+            }
+
+            window.removeService = function(button) {
+                const serviceItem = button.closest('.service-item');
+                serviceItem.remove();
+                calculateTotalAndUpdateListeners();
+            }
+            
+            function getClientName() {
+                const headerClientName = document.getElementById('header-client-name').value;
+                const gridClientName = document.getElementById('client-name-grid').value;
+                if (headerClientName && headerClientName !== "Cliente") return headerClientName;
+                if (gridClientName && gridClientName !== "Cliente") return gridClientName;
+                return "Cliente";
+            }
+
+            function getQuoteText(forPlainText = true, forShortSummary = false) {
+                const clientName = getClientName(); 
+                const date = document.getElementById('current-date').textContent; // Tomamos la fecha ya establecida
+                
+                let text = "";
+
+                if (forShortSummary) {
+                    text += `Resumen de Cotización para ${clientName}:\n\n`;
+                    const servicesSummary = Array.from(document.querySelectorAll('.service-item')).map(item => {
+                        const title = item.querySelector('.service-title').value;
+                        const price = Math.max(0, parseFloat(item.querySelector('.price-input').value) || 0);
+                        return `- ${title}: $${price}`;
+                    }).join('\n');
+                    text += `SERVICIOS:\n${servicesSummary}\n\n`;
+                    const total = document.getElementById('total-amount').textContent;
+                    text += `TOTAL DEL PROYECTO: ${total}\n\n`;
+                    text += `Para ver la cotización completa y los términos, por favor revise el documento adjunto o el enlace proporcionado.\n\n`;
+                    text += `Saludos,\nFrancisco David Reyna Galarza`;
+
+                } else {
+                    text += `COTIZACIÓN - FRANCISCO DAVID REYNA GALARZA\n`;
+                    text += `---------------------------------------\n`;
+                    text += `Cliente: ${clientName}\n`;
+                    text += `Fecha: ${date}\n`;
+                    text += `Desarrollador: Francisco David Reyna Galarza\n`;
+                    text += `Contacto: lanboreyna@gmail.com | +593 988 152 500\n`;
+                    text += `---------------------------------------\n\n`;
+                    text += `SERVICIOS:\n`;
+
+                    const services = Array.from(document.querySelectorAll('.service-item')).map(item => {
+                        const title = item.querySelector('.service-title').value;
+                        const price = Math.max(0, parseFloat(item.querySelector('.price-input').value) || 0);
+                        const description = item.querySelector('.service-description').value.replace(/•/g, '  -');
+                        return `${title}: $${price}\n${description}\n`;
+                    }).join('\n');
+                    
+                    text += services;
+                    
+                    const total = document.getElementById('total-amount').textContent;
+                    text += `\n---------------------------------------\n`;
+                    text += `TOTAL DEL PROYECTO: ${total}\n`;
+                    text += `(Pago: 50% inicio • 50% final)\n`;
+                    text += `---------------------------------------\n\n`;
+
+                    text += `SERVICIO DE MANTENIMIENTO MENSUAL (Opcional):\n`;
+                    text += `Costo: $60 USD/mes (Pago anticipado)\n`;
+                    text += `Incluye:\n`;
+                    text += `  - Actualización semanal de contenido\n`;
+                    text += `  - Gestión de hasta 20 productos\n`;
+                    text += `  - Soporte técnico básico\n`;
+                    text += `---------------------------------------\n\n`;
+                    
+                    text += `Tiempo de entrega estimado: 25-30 días hábiles.\n`;
+                    text += `Garantía: 30 días post-entrega para corrección de bugs técnicos.\n\n`;
+                    text += `Para ver los términos y condiciones completos, por favor revise el documento PDF o la cotización online.\n\n`;
+                    text += `¡Gracias por su interés!\n`;
+                    text += `Francisco David Reyna Galarza`;
+                }
+
+                if (!forPlainText) { 
+                    return text.replace(/\n/g, '<br>');
+                }
+                return text;
+            }
+
+            window.copyQuote = function() {
+                const textToCopy = getQuoteText(true, false);
+                navigator.clipboard.writeText(textToCopy).then(() => {
+                    alert('¡Cotización copiada al portapapeles!');
+                }).catch(err => {
+                    console.error('Error al copiar: ', err);
+                    alert('Error al copiar la cotización.');
+                });
+            }
+
+            window.sendEmailQuote = function() {
+                const recipientEmail = "lanboreyna@gmail.com";
+                const clientName = getClientName();
+
+                const subject = encodeURIComponent(`Cotización de Desarrollo Web para ${clientName} - Francisco David Reyna Galarza`);
+                
+                let body = getQuoteText(true, false); 
+                let mailtoLink = `mailto:${recipientEmail}?subject=${subject}&body=${encodeURIComponent(body)}`;
+
+                const MAX_MAILTO_LENGTH = 1800; 
+
+                if (mailtoLink.length > MAX_MAILTO_LENGTH) {
+                    console.warn("Cuerpo de correo muy largo para mailto, usando resumen.");
+                    body = getQuoteText(true, true); 
+                    mailtoLink = `mailto:${recipientEmail}?subject=${subject}&body=${encodeURIComponent(body)}`;
+                    
+                    if (mailtoLink.length > MAX_MAILTO_LENGTH) {
+                        alert("La cotización es muy extensa para enviarla directamente por email.\n\nPor favor, usa el botón 'Copiar Cotización' y pégala manualmente en tu programa de correo.");
+                        return; 
+                    } else {
+                         alert("La cotización es un poco larga, se enviará un resumen por email. Considera adjuntar el PDF descargado para todos los detalles.");
+                    }
+                }
+                
+                try {
+                    const mailLinkElement = document.createElement('a');
+                    mailLinkElement.href = mailtoLink;
+                    mailLinkElement.style.display = 'none'; 
+                    document.body.appendChild(mailLinkElement);
+                    mailLinkElement.click();
+                    document.body.removeChild(mailLinkElement);
+                } catch (e) {
+                    console.error("Error al intentar abrir mailto con elemento <a>:", e);
+                    alert("No se pudo abrir tu cliente de correo. Asegúrate de tener uno configurado o intenta copiar la cotización manualmente.");
+                    try {
+                        window.location.href = mailtoLink;
+                    } catch (e2) {
+                        console.error("Error con window.location.href para mailto:", e2);
+                    }
+                }
+            }
+
+            window.sendWhatsAppQuote = function() {
+                const tuNumeroWhatsApp = "593988152500"; 
+                const clientName = getClientName();
+
+                let message = `¡Hola Francisco! Estoy interesado/a en la cotización de desarrollo web para ${clientName}.\n\n`; 
+                message += `Aquí está un resumen:\n`;
+                message += "--------------------------\n";
+                
+                const servicesSummary = Array.from(document.querySelectorAll('.service-item')).map(item => {
+                    const title = item.querySelector('.service-title').value;
+                    const price = Math.max(0, parseFloat(item.querySelector('.price-input').value) || 0); 
+                    return `- ${title}: $${price}`;
+                }).join('\n');
+                message += servicesSummary;
+                
+                const total = document.getElementById('total-amount').textContent;
+                message += `\n--------------------------\n`;
+                message += `TOTAL: ${total}\n`;
+                message += `--------------------------\n`;
+                message += `(He revisado los detalles en la cotización online/PDF)\n\n`;
+                message += `Espero tu respuesta.`;
+
+                const whatsappUrl = `https://wa.me/${tuNumeroWhatsApp}?text=${encodeURIComponent(message)}`;
+                window.open(whatsappUrl, '_blank');
+            }
+        });
+    </script>
+</body>
+</html>
